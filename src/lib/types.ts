@@ -1,10 +1,18 @@
-export type CmfStatus = "사용중" | "검토중" | "단종" | "보류";
+export type UseStatus = "사용중" | "미사용";
+export type UseIn = "" | "THE GEM" | "IDEALIAN" | "NEOR" | "ICONIA";
+export type Gender = "" | "남아" | "여아";
+
+export type OutfitPhoto = {
+  photoUrl: string;
+  characterName: string;
+  itemLabel: string;
+};
 
 export type CmfItem = {
-  id: string; // Firestore doc id
-  // 기본 데이터(검색 결과 표시)
+  id: string;
+
+  // CSV 기본 필드
   무게?: string;
-  종류?: string;
   업체명?: string;
   No?: string;
   comp?: string;
@@ -12,20 +20,21 @@ export type CmfItem = {
   mount?: string;
   cost?: string;
   color?: string;
+  colorCodes?: string[];
   조직?: string;
   전화번호?: string;
   장소?: string;
   아카이빙?: string;
-  swatchUrl?: string; // Storage 다운로드 URL
 
-  // 상세보기에서 수정 가능한 필드
-  status?: CmfStatus;
-  recentProject?: string;
-  usageScore?: string; // 내부 활용도 평가(텍스트/점수 자유)
-  sampleLocation?: string; // 샘플 위치(실물 보관 위치)
+  // 상세 편집 필드(요구사항 5)
+  useStatus?: UseStatus;
+  useIn?: UseIn;
+  gender?: Gender;
+  releaseYear?: string;
+  collectionName?: string;
+  sampleLocation?: string;
+  outfits?: OutfitPhoto[];
 
-  // 메타
-  createdAt?: number;
-  updatedAt?: number;
-  deletedAt?: number;
+  createdAt?: any;
+  updatedAt?: any;
 };

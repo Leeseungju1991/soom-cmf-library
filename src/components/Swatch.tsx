@@ -1,27 +1,48 @@
+import fixedSwatch from "../assets/fixed-swatch.png";
 import { useState } from "react";
+import { createPortal } from "react-dom";
 
-export default function Swatch({ url }: { url?: string }) {
+export default function Swatch() {
   const [open, setOpen] = useState(false);
-  if (!url) return <div className="w-10 h-10 rounded-md bg-gray-200" title="no swatch" />;
+
   return (
     <>
-      <button onClick={() => setOpen(true)} className="w-10 h-10 rounded-md overflow-hidden border">
-        <img src={url} alt="swatch" className="w-full h-full object-cover" />
-      </button>
-
-      {open ? (
-        <div className="fixed inset-0 bg-black/60 flex items-center justify-center p-6" onClick={() => setOpen(false)}>
-          <div className="bg-white rounded-xl max-w-3xl w-full p-4" onClick={(e)=>e.stopPropagation()}>
-            <div className="flex items-center">
-              <div className="font-semibold">스와치 확대보기</div>
-              <button className="ml-auto text-sm text-muted" onClick={()=>setOpen(false)}>닫기</button>
-            </div>
-            <div className="mt-4">
-              <img src={url} alt="swatch large" className="w-full h-auto rounded-lg" />
-            </div>
-          </div>
-        </div>
-      ) : null}
+      <img
+        src={fixedSwatch}
+        alt="swatch"
+        className="w-10 h-10 rounded-xl border border-white/60 object-cover cursor-zoom-in hover:scale-105 transition shadow-card"
+        onClick={() => setOpen(true)}
+      />
+      {open &&
+        (typeof document !== "undefined"
+          ? createPortal(
+              <div
+                className="fixed inset-0 bg-black/60 flex items-center justify-center z-[9999]"
+                onClick={() => setOpen(false)}
+              >
+                <div
+                  className="glass-card max-w-[90vw] max-h-[90vh] p-4"
+                  onClick={(e) => e.stopPropagation()}
+                >
+                  {/* ✅ 닫기(X) 버튼을 오른쪽으로 */}
+                  <div className="flex justify-end items-center mb-3">
+                    <button
+                      className="px-2 py-1 rounded-lg hover:bg-white/70"
+                      onClick={() => setOpen(false)}
+                    >
+                      ✕
+                    </button>
+                  </div>
+                  <img
+                    src={fixedSwatch}
+                    alt="swatch large"
+                    className="max-w-[80vw] max-h-[80vh] object-contain rounded-2xl"
+                  />
+                </div>
+              </div>,
+              document.body
+            )
+          : null)}
     </>
   );
 }

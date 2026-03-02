@@ -1,0 +1,183 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  color-scheme: light;
+}
+
+.text-muted { @apply text-slate-500; }
+
+/*
+  Global background
+  - Pastel purple/blue/pink gradient similar to the reference UI
+  - Uses pure CSS so it works regardless of Tailwind build settings
+*/
+/*
+  IMPORTANT
+  - 기존 height:100% 고정은 페이지 내용이 길어질 때 스크롤 영역과
+    background 페인팅(그라데이션)이 잘리는 현상을 유발할 수 있습니다.
+  - min-height로 바꿔서 화면/내용 길이에 따라 자연스럽게 확장되도록 합니다.
+*/
+html, body, #root {
+  min-height: 100%;
+}
+
+body {
+  /* base gradient */
+  background: linear-gradient(135deg, #c7d2fe 0%, #e9d5ff 42%, #fbcfe8 100%);
+
+  /* soft blobs */
+  background-image:
+    radial-gradient(900px circle at 18% 20%, rgba(96, 165, 250, 0.45), transparent 60%),
+    radial-gradient(900px circle at 82% 12%, rgba(236, 72, 153, 0.35), transparent 60%),
+    radial-gradient(900px circle at 50% 92%, rgba(109, 93, 254, 0.30), transparent 60%),
+    linear-gradient(135deg, #c7d2fe 0%, #e9d5ff 42%, #fbcfe8 100%);
+
+  min-height: 100dvh;
+  overflow-x: hidden;
+}
+
+/* ✅ 모바일에서 가로 스와이프(제스처)로 내용 확인 */
+.scroll-x-touch {
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+}
+
+/* ✅ 스크롤바 숨김(기능은 유지) */
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+.no-scrollbar {
+  -ms-overflow-style: none; /* IE/Edge */
+  scrollbar-width: none; /* Firefox */
+}
+
+@layer components {
+  /* translucent (glass) surfaces */
+  .glass {
+    @apply bg-white/70 backdrop-blur-xl border border-white/50;
+  }
+
+  .glass-card {
+    @apply glass rounded-2xl shadow-card;
+  }
+
+  .glass-panel {
+    /* Panel wrapper (rounding is set at the usage site to avoid conflicts) */
+    @apply glass shadow-card;
+  }
+
+  .btn-primary {
+    @apply rounded-xl px-4 py-2 font-semibold text-white shadow-soft;
+    background-image: linear-gradient(90deg, #6D5DFE 0%, #8B5CF6 52%, #EC4899 100%);
+  }
+
+  .btn-primary:disabled {
+    @apply opacity-50 cursor-not-allowed;
+  }
+
+  .btn-outline {
+    @apply rounded-xl px-4 py-2 font-semibold bg-white/60 border border-white/60 shadow-card;
+  }
+
+  .input {
+    /*
+      입력/선택 UI는 카드(white/70) 위에서 border-white/60가 거의 보이지 않아
+      "테두리가 안 보인다"는 피드백이 있었습니다.
+      더 진한 배경 + 중립(border-slate)로 가독성을 올립니다.
+    */
+    @apply w-full rounded-xl px-3 py-2 bg-white/85 border border-slate-200/80 outline-none;
+    @apply focus:ring-2 focus:ring-accent/30;
+  }
+
+  .select {
+    @apply w-full rounded-xl px-3 py-2 bg-white/85 border border-slate-200/80 outline-none;
+    @apply focus:ring-2 focus:ring-accent/30;
+  }
+
+  .table-head {
+    @apply text-xs text-slate-500 border-b border-white/60;
+  }
+}
+
+
+@media print {
+  /* 숨김 */
+  .no-print { display: none !important; }
+
+  /* 전체 배경 제거 */
+  body { background: #fff !important; }
+
+  /* 카드/버튼 그림자 제거 */
+  .shadow-card,
+  .glass-card,
+  .glass-panel,
+  .btn-outline,
+  .btn-primary { box-shadow: none !important; }
+
+  /* 투명(글라스) 효과 제거 */
+  .glass,
+  .glass-card,
+  .glass-panel,
+  .btn-outline {
+    backdrop-filter: none !important;
+    -webkit-backdrop-filter: none !important;
+    background: #fff !important;
+    border: 0 !important;
+  }
+
+  /* 좌측 메뉴 숨기기(레이아웃에 따라) */
+  aside, nav { display: none !important; }
+
+  /* 출력 폭 최적화 */
+  .print-area { padding: 0 !important; }
+}
+
+
+/* ✅ 모바일(iOS)에서 input 포커스 시 자동 확대(zoom) 방지 */
+html { -webkit-text-size-adjust: 100%; }
+
+@media (max-width: 640px) {
+  .input,
+  .select,
+  textarea {
+    font-size: 16px;
+  }
+}
+.action-pill {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  height: 38px;
+  padding: 0 14px;
+  border-radius: 9999px;
+  font-weight: 700;
+  font-size: 13px;
+  box-shadow: 0 6px 16px rgba(0,0,0,0.08);
+  box-shadow: 0 6px 16px rgba(0,0,0,0.08);
+  transition: transform .08s ease, opacity .08s ease;
+  user-select: none;
+}
+
+.action-pill:active {
+  transform: translateY(1px);
+}
+
+.action-pill-outline {
+  background: rgba(255,255,255,0.8);
+  border: 1px solid rgba(148,163,184,0.35); /* slate */
+  color: #0f172a;
+}
+
+.action-pill-primary {
+  background: linear-gradient(90deg, #7c3aed, #ec4899);
+  color: white;
+  border: 0;
+}
+
+.action-pill-danger {
+  background: rgba(15,23,42,0.06);
+  border: 1px solid rgba(148,163,184,0.35);
+  color: #ef4444;
+}
