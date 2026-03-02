@@ -1,0 +1,41 @@
+{
+  "expo": {
+    "name": "jeyakin",
+    "slug": "jeyakin",
+    "version": "9.0.0",
+    "orientation": "portrait",
+    "icon": "./assets/icon.png",
+    "updates": {
+      "fallbackToCacheTimeout": 0
+    },
+    "notification": {
+      "icon": "./assets/icon.png"
+    },
+    "splash": {
+      "image": "./assets/splash.png",
+      "resizeMode": "cover",
+      "backgroundColor": "#ffffff",
+      "androidStatusBar": {
+        "barStyle": "light-content",
+        "backgroundColor": "#f8f9ff"
+      }
+    },
+    "assetBundlePatterns": [
+      "**/*"
+    ],
+    "ios": {
+      "supportsTablet": true,
+      "bundleIdentifier": "com.huynh.jeyakin"
+    },
+    "android": {
+      "adaptiveIcon": {
+        "foregroundImage": "./assets/icon.png",
+        "backgroundColor": "#FFFFFF"
+      },
+      "package": "com.huynh.jeyakin"
+    },
+    "web": {
+      "favicon": "./assets/favicon.png"
+    }
+  }
+}
